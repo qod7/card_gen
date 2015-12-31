@@ -1,0 +1,9 @@
+{
+    "size": "",
+    "background": "",
+    "fields": [
+        {"name": "@name"},
+        {"class": "@class"},
+        {"roll_no": "@roll_no"},
+    ]    
+}
