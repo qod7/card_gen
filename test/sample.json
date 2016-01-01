@@ -1,9 +1,35 @@
 {
-    "size": "",
-    "background": "",
+    "width": "240",
+    "height": "480",
+    "background": "FFFFFFFF",
     "fields": [
-        {"name": "@name"},
-        {"class": "@class"},
-        {"roll_no": "@roll_no"},
+        {
+            "id": "name",
+            "label": "Name",
+            "csv_column": "name",
+            "type": "text",
+            "font_color": "000000",
+            "position_x": "10",
+            "position_y": "10",
+        },
+        {
+            "id": "class",
+            "label": "Class",
+            "csv_column": "class",
+            "type": "text",
+            "font_color": "000000",
+            "font_size": "10",
+            "position_x": "10",
+            "position_y": "10",
+        },
+        {
+            "id": "roll_no",
+            "label": "Roll No",
+            "csv_column": "roll_no",
+            "type": "text",
+            "font_color": "000000",
+            "font_size": "10",
+            "position": "10,10",
+        },
     ]    
 }

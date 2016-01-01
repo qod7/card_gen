@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using System.Globalization;
+
 // External Libraries
 using CsvHelper;
 using Newtonsoft.Json.Linq;
@@ -18,7 +20,8 @@ namespace id_generator
     public partial class id_generator : Form
     {
         // Class members
-        private Graphics canvas;
+        private Graphics canvas_graphics;
+        private Bitmap canvas_bitmap;
         private String csv_file;
         private String json_file;
 
@@ -31,7 +34,7 @@ namespace id_generator
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = "C:\\Users\\Diwas\\Documents\\Visual Studio 2013\\Projects\\id_generator\\id_generator\\test";
+            openFileDialog1.InitialDirectory = "C:\\Users\\Diwas\\Documents\\Visual Studio 2013\\Projects\\id_generator\\test";
             openFileDialog1.Filter = "JSON File(*.json)|*.json";
             openFileDialog1.FilterIndex = 1;
             openFileDialog1.RestoreDirectory = true;
@@ -39,7 +42,6 @@ namespace id_generator
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 json_file = openFileDialog1.FileName;
-                Console.WriteLine(json_file);
             }
         }
 
@@ -47,7 +49,7 @@ namespace id_generator
         {
             OpenFileDialog openFileDialog2 = new OpenFileDialog();
 
-            openFileDialog2.InitialDirectory = "C:\\Users\\Diwas\\Documents\\Visual Studio 2013\\Projects\\id_generator\\id_generator\\test";
+            openFileDialog2.InitialDirectory = "C:\\Users\\Diwas\\Documents\\Visual Studio 2013\\Projects\\id_generator\\test";
             openFileDialog2.Filter = "CSV File(*.csv)|*.csv";
             openFileDialog2.FilterIndex = 1;
             openFileDialog2.RestoreDirectory = true;
@@ -55,17 +57,25 @@ namespace id_generator
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
                 csv_file = openFileDialog2.FileName;
-                Console.WriteLine(csv_file);
             }
         }
 
         private void button_generate_Click(object sender, EventArgs e)
         {
             String json_content = File.ReadAllText(json_file);
-            JObject obj1 = JObject.Parse(json_content);
+            JObject json_obj = JObject.Parse(json_content);
 
-            string sample = (string)obj1["glossary"]["title"];
-            Console.WriteLine(sample);
+            int canvas_width = (int)json_obj["width"], canvas_height = (int)json_obj["height"];
+
+            // Create a empty bitmap
+            canvas_bitmap = new Bitmap(canvas_width, canvas_height);
+            canvas_graphics = Graphics.FromImage(canvas_bitmap);
+
+            Color background_color = Color.FromArgb(Convert.ToInt32((string)json_obj["background"], 16));
+            canvas_graphics.Clear(background_color);
+
+            canvas_bitmap.Save("sample.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+
         }
     }
 }
