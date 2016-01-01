@@ -62,20 +62,61 @@ namespace id_generator
 
         private void button_generate_Click(object sender, EventArgs e)
         {
-            String json_content = File.ReadAllText(json_file);
-            JObject json_obj = JObject.Parse(json_content);
+            // Return if empty or null
+            if(String.IsNullOrEmpty(csv_file) || String.IsNullOrEmpty(json_file))
+            {
+                csv_file = "C:\\Users\\Diwas\\Documents\\Visual Studio 2013\\Projects\\id_generator\\test\\sample.csv";
+                json_file = "C:\\Users\\Diwas\\Documents\\Visual Studio 2013\\Projects\\id_generator\\test\\sample.json";
 
+                //return;
+            }
+
+            // Create json object containing data
+            JObject json_obj = JObject.Parse(File.ReadAllText(json_file));
+
+            // Create a canvas for drawing
             int canvas_width = (int)json_obj["width"], canvas_height = (int)json_obj["height"];
 
             // Create a empty bitmap
             canvas_bitmap = new Bitmap(canvas_width, canvas_height);
             canvas_graphics = Graphics.FromImage(canvas_bitmap);
 
+            // Apply the background color
             Color background_color = Color.FromArgb(Convert.ToInt32((string)json_obj["background"], 16));
             canvas_graphics.Clear(background_color);
 
-            canvas_bitmap.Save("sample.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            // Draw static items
+            draw_static_items(json_obj);
 
+            // Save image
+            canvas_bitmap.Save("sample.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+        }
+
+        private void draw_static_items(JObject json_obj)
+        {
+            JArray fields = (JArray)json_obj["fields"];
+
+            // Iterate through the array to draw static elements
+            foreach (JObject field in fields)
+            {
+                string type = (string)field["type"];
+                if (!type.Equals("static"))
+                    continue;
+                
+                string content_type = (string)field["content_type"];
+                if(content_type.Equals("text"))
+                {
+                    Font font = new Font((string)json_obj["font_name"], (int)field["font_size"]);
+                    SolidBrush brush = new SolidBrush(Color.FromArgb(Convert.ToInt32((string)field["font_color"], 16)));
+                    PointF point = new PointF((float)field["position_x"],(float)field["position_y"]);
+
+                    canvas_graphics.DrawString((string)field["content"], font, brush, point);
+                }
+                else
+                {
+                    // Maybe someday
+                }
+            }
         }
     }
 }
