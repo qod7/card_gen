@@ -3,24 +3,46 @@
     "height": "480",
     "background": "FFFFFFFF",
     "font_name": "Aerial",
-    "fields": [
+    "fields": 
+    [
         {
             "type": "static",
             "content_type": "text",
             "content": "Name",
-            "font_color": "FF000000",
-            "font_size": "10",
-            "position_x": "10",
-            "position_y": "10",
+            "properties":
+            {
+                "font_color": "FF000000",
+                "font_size": "10",
+                "position_x": "10",
+                "position_y": "10",
+                "visible": "yes",
+            }
         },
         {
             "type": "static",
             "content_type": "text",
             "content": "Class",
-            "font_color": "FF000000",
-            "font_size": "10",
-            "position_x": "10",
-            "position_y": "20",
+            "properties":
+            {
+                "font_color": "FF000000",
+                "font_size": "10",
+                "position_x": "10",
+                "position_y": "20",
+                "visible": "yes",
+            }
+        },
+        {
+            "type": "dynamic",
+            "content_type": "text",
+            "csv_column": "uniqueid",
+            "properties":
+            {
+                "font_color": "FF000000",
+                "font_size": "10",
+                "position_x": "10",
+                "position_y": "40",
+                "visible": "yes",
+            }
         },
     ]    
 }

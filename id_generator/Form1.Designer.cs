@@ -90,7 +90,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 506);
+            this.ClientSize = new System.Drawing.Size(488, 495);
             this.Controls.Add(this.button_generate);
             this.Controls.Add(this.button_csv);
             this.Controls.Add(this.label_csv);
