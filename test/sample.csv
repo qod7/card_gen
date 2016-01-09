@@ -1,11 +1,2 @@
-SN (Optional),uniqueid,Name,Roll Number,Contact,Address,Photo Filename,Date of Birth,Faculty,Shift,Level,Guardian,Issue Date,Validity,Bus,Hostel,Walking,Category,Bus Stop,Background Pic,House,Houseback,Blank1,Blank2,Blank3,Blank4,Blank5,Blank6
-1,JQN-dry-z5V,Rahul Verma,1,9841223344,Pitam Pura Delhi,1.jpg,10/2/2005,,,,,,,,,,,,,,,,,,,,
-2,JQN-dry-z8P,sunita sharma,2,8767676767,Ram Nagar Delhi,2.jpg,12/12/2005,,,,,,,,,,,,,,,,,,,,
-3,JQN-dry-KeS,Mahesh Rana,3,9801212345,Dilshad Garden,4.jpg,1/2/2005,,,,,,,,,,,,,,,,,,,,
-4,JQN-dry-agR,Vishnu Raghav,4,9851112885,Gwarko Lalitpur,7.jpg,12/12/2005,,,,,,,,,,,,,,,,,,,,
-5,JQN-dry-Sz3,Bobby Jindal,5,8767676765,Ghajiabad UP.,8.jpg,12/1/2006,,,,,,,,,,,,,,,,,,,,
-6,JQN-dry-L9P,Shayama Gupta,6,789067890,Kathmandu,6.jpg,3/3/2005,,,,,,,,,,,,,,,,,,,,
-7,JQN-dry-ZBH,Soniya Sharma,7,986789045,New Delhi,11.jpg,9/12/2005,,,,,,,,,,,,,,,,,,,,
-8,JQN-dry-jtL,Saroj Tyagi,8,982342323,New Delhi,5.jpg,3/5/2005,,,,,,,,,,,,,,,,,,,,
-9,JQN-dry-bDH,Seema Shah,9,98412222222,New Delhi,12.jpg,21-02-2005,,,,,,,,,,,,,,,,,,,,
-10,JQN-dry-fsE,Sonia Chauhan,10,982123113,Baktapur,10.jpg,3/3/2005,,,,,,,,,,,,,,,,,,,,
+SN (Optional),uniqueid,Name,Roll Number,Contact,Address,photo,Date of Birth,Faculty,Shift,Level,Guardian,Issue Date,Validity,Bus,Hostel,Walking,Category,Bus Stop,Background Pic,House,Houseback,Blank1,Blank2,Blank3,Blank4,Blank5,Blank6
+1,JQN-dry-z5V,Rahul Verma,1,9841223344,Pitam Pura Delhi,1.png,10/2/2005,,,,,,,,,,,,,,,,,,,,

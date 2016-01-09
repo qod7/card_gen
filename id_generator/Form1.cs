@@ -26,14 +26,16 @@ namespace id_generator
         private String json_file;
 
         private String default_font;
-        private String base_path;
+        private String photos_folder;
+        private String idcards_folder;
 
         public id_generator()
         {
             InitializeComponent();
-            base_path = "idcards";
 
-            Directory.CreateDirectory(base_path);
+            idcards_folder = "idcards";
+            // Create directory for idcards
+            Directory.CreateDirectory(idcards_folder);
 
         }
 
@@ -79,6 +81,15 @@ namespace id_generator
                 json_file = "C:\\Users\\Diwas\\Documents\\Visual Studio 2013\\Projects\\id_generator\\test\\sample.json";
             }
 
+            // Path for photos
+            photos_folder = Path.Combine(Path.GetDirectoryName(csv_file), "photos");
+            
+            // Throw exception if photos folder not found
+            if(!Directory.Exists(photos_folder))
+            {
+                throw new Exception("photos folder not found");
+            }
+
             // Create json object containing data
             JObject json_obj = JObject.Parse(File.ReadAllText(json_file));
 
@@ -99,10 +110,11 @@ namespace id_generator
             // Draw static items
             draw_static_items(json_obj);
 
-            // Draw variables
+            // Draw dynamic items
             draw_dynamics_items(json_obj);
         }
 
+        // Draw given string onto cavas
         private void draw_string(Graphics graphics, JObject properties, string content)
         {
             Font font = new Font(default_font, (int)properties["font_size"]);
@@ -111,6 +123,17 @@ namespace id_generator
 
             graphics.DrawString(content, font, brush, point);
 
+        }
+
+        // Draw given image onto canvas
+        private void draw_image(Graphics graphics, JObject properties, string image_filepath)
+        {
+            Image photo = Image.FromFile(image_filepath);
+            PointF point = new PointF((float)properties["position_x"], (float)properties["position_y"]);
+
+            // If needed insert code for resizing
+
+            graphics.DrawImage(photo, point);
         }
 
         private void draw_static_items(JObject json_obj)
@@ -136,8 +159,7 @@ namespace id_generator
             } // End foreach
             
             // Save the base image
-            string base_file = "base.jpg";
-            string filepath = Path.Combine(base_path, base_file);
+            string filepath = Path.Combine(idcards_folder, "base.jpg");
             canvas_image.Save(filepath, System.Drawing.Imaging.ImageFormat.Jpeg);
 
         } //End method
@@ -147,7 +169,7 @@ namespace id_generator
             JArray fields = (JArray)json_obj["fields"];
             CsvReader csv_obj = new CsvReader(new StreamReader(csv_file));
 
-            while( csv_obj.Read() )
+            while(csv_obj.Read())
             {
                 // Duplicate base image
                 Image id_card_image = new Bitmap(canvas_image);
@@ -168,14 +190,24 @@ namespace id_generator
 
                         // Draw obtained content
                         draw_string(id_card_graphics, (JObject)field["properties"], content);
-
-                        // Save the constructed image
-                        string filename = csv_obj.GetField<string>("uniqueid") + ".jpg";
-                        string filepath = Path.Combine(base_path, filename);
-                        id_card_image.Save(filepath, System.Drawing.Imaging.ImageFormat.Jpeg);
                     } 
-                }
+                    else if (content_type.Equals("image"))
+                    {
+                        string photo_filepath = Path.Combine(photos_folder, csv_obj.GetField<string>((string)field["csv_column"]));
 
+                        // Draw image on canvas
+                        draw_image(id_card_graphics, (JObject)field["properties"], photo_filepath);
+                    }
+                    else
+                    {
+                        // I wonder what
+                    }
+
+                    // Save the constructed image
+                    string filename = csv_obj.GetField<string>("uniqueid") + ".jpg";
+                    string filepath = Path.Combine(idcards_folder, filename);
+                    id_card_image.Save(filepath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
 
             } //End while
         } // End method

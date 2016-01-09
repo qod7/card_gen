@@ -44,5 +44,16 @@
                 "visible": "yes",
             }
         },
+        {
+            "type": "dynamic",
+            "content_type": "image",
+            "csv_column": "photo",
+            "properties":
+            {
+                "position_x": "10",
+                "position_y": "40",
+                "visible": "yes",
+            }
+        },
     ]    
 }
