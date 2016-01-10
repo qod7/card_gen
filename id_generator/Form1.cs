@@ -107,16 +107,25 @@ namespace id_generator
             // Font to use
             default_font = (string)json_obj["font_name"];
 
+            JArray fields = (JArray)json_obj["fields"];
+
             // Draw static items
-            draw_static_items(json_obj);
+            draw_static_items(fields);
 
             // Draw dynamic items
-            draw_dynamics_items(json_obj);
+            draw_dynamics_items(fields);
         }
 
         // Draw given string onto cavas
         private void draw_string(Graphics graphics, JObject properties, string content)
         {
+            // Draw element if visible is true
+            string visible = (string)properties["visible"];
+            if (!visible.Equals("true"))
+            {
+                return;
+            }
+
             Font font = new Font(default_font, (int)properties["font_size"]);
             SolidBrush brush = new SolidBrush(Color.FromArgb(Convert.ToInt32((string)properties["font_color"], 16)));
             PointF point = new PointF((float)properties["position_x"], (float)properties["position_y"]);
@@ -128,6 +137,13 @@ namespace id_generator
         // Draw given image onto canvas
         private void draw_image(Graphics graphics, JObject properties, string image_filepath)
         {
+            // Draw element if visible is true
+            string visible = (string)properties["visible"];
+            if(!visible.Equals("true"))
+            {
+                return;
+            }
+
             Image photo = Image.FromFile(image_filepath);
             PointF point = new PointF((float)properties["position_x"], (float)properties["position_y"]);
 
@@ -136,10 +152,8 @@ namespace id_generator
             graphics.DrawImage(photo, point);
         }
 
-        private void draw_static_items(JObject json_obj)
+        private void draw_static_items(JArray fields)
         {
-            JArray fields = (JArray)json_obj["fields"];
-
             // Iterate through the array to draw static elements
             foreach (JObject field in fields)
             {
@@ -152,9 +166,13 @@ namespace id_generator
                 {
                     draw_string(canvas_graphics, (JObject)field["properties"], (string)field["content"]);
                 }
+                else if (content_type.Equals("image"))
+                {
+                    // Nothing here
+                }
                 else
                 {
-                    // Maybe someday
+                    // Nothing
                 }
             } // End foreach
             
@@ -164,9 +182,8 @@ namespace id_generator
 
         } //End method
 
-        private void draw_dynamics_items(JObject json_obj)
+        private void draw_dynamics_items(JArray fields)
         {
-            JArray fields = (JArray)json_obj["fields"];
             CsvReader csv_obj = new CsvReader(new StreamReader(csv_file));
 
             while(csv_obj.Read())

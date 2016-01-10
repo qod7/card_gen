@@ -15,7 +15,7 @@
                 "font_size": "10",
                 "position_x": "10",
                 "position_y": "10",
-                "visible": "yes",
+                "visible": "true",
             }
         },
         {
@@ -28,7 +28,7 @@
                 "font_size": "10",
                 "position_x": "10",
                 "position_y": "20",
-                "visible": "yes",
+                "visible": "true",
             }
         },
         {
@@ -41,7 +41,7 @@
                 "font_size": "10",
                 "position_x": "10",
                 "position_y": "40",
-                "visible": "yes",
+                "visible": "true",
             }
         },
         {
@@ -52,7 +52,7 @@
             {
                 "position_x": "10",
                 "position_y": "40",
-                "visible": "yes",
+                "visible": "true",
             }
         },
     ]    
