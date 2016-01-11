@@ -13,6 +13,7 @@
             {
                 "font_color": "FF000000",
                 "font_size": "10",
+                "font_style":"bold,italic,underline",
                 "position_x": "10",
                 "position_y": "10",
                 "visible": "true",
@@ -26,8 +27,9 @@
             {
                 "font_color": "FF000000",
                 "font_size": "10",
-                "position_x": "10",
-                "position_y": "20",
+                "font_style":"bold",
+                "position_x": "30",
+                "position_y": "30",
                 "visible": "true",
             }
         },
@@ -39,6 +41,9 @@
             {
                 "font_color": "FF000000",
                 "font_size": "10",
+                "font_bold": "true",
+                "font_italic": "true",
+                "font_underline": "true",
                 "position_x": "10",
                 "position_y": "40",
                 "visible": "true",

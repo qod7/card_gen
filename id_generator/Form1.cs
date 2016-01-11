@@ -126,7 +126,27 @@ namespace id_generator
                 return;
             }
 
-            Font font = new Font(default_font, (int)properties["font_size"]);
+            // Use regular style by default
+            FontStyle font_style = FontStyle.Regular;
+            string styles_str = (string)properties["font_style"];
+
+            if (!String.IsNullOrEmpty(styles_str))
+            {
+                char[] seperator = { ',' };
+                string[] styles= styles_str.Split(seperator);
+
+                foreach(string style in styles)
+                {
+                    if (style.Equals("italic"))
+                        font_style = font_style ^ FontStyle.Italic;
+                    else if (style.Equals("underline"))
+                        font_style = font_style ^ FontStyle.Underline;
+                    else
+                        font_style = font_style ^ FontStyle.Bold;
+                }
+            }
+
+            Font font = new Font(default_font, (int)properties["font_size"], font_style);
             SolidBrush brush = new SolidBrush(Color.FromArgb(Convert.ToInt32((string)properties["font_color"], 16)));
             PointF point = new PointF((float)properties["position_x"], (float)properties["position_y"]);
 
