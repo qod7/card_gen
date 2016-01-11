@@ -86,9 +86,7 @@ namespace id_generator
             
             // Throw exception if photos folder not found
             if(!Directory.Exists(photos_folder))
-            {
-                throw new Exception("photos folder not found");
-            }
+                throw new Exception("Folder not found " + photos_folder);
 
             // Create json object containing data
             JObject json_obj = JObject.Parse(File.ReadAllText(json_file));
@@ -107,6 +105,7 @@ namespace id_generator
             // Font to use
             default_font = (string)json_obj["font_name"];
 
+            // Obtain fields from json object
             JArray fields = (JArray)json_obj["fields"];
 
             // Draw static items
@@ -122,9 +121,7 @@ namespace id_generator
             // Draw element if visible is true
             string visible = (string)properties["visible"];
             if (!visible.Equals("true"))
-            {
                 return;
-            }
 
             // Use regular style by default
             FontStyle font_style = FontStyle.Regular;
@@ -137,20 +134,22 @@ namespace id_generator
 
                 foreach(string style in styles)
                 {
-                    if (style.Equals("italic"))
+                    if (style.Equals("bold"))
+                        font_style = font_style ^ FontStyle.Bold;
+                    else if (style.Equals("italic"))
                         font_style = font_style ^ FontStyle.Italic;
                     else if (style.Equals("underline"))
                         font_style = font_style ^ FontStyle.Underline;
                     else
-                        font_style = font_style ^ FontStyle.Bold;
+                        throw new Exception("Invalid font style " + style);
                 }
             }
 
             Font font = new Font(default_font, (int)properties["font_size"], font_style);
             SolidBrush brush = new SolidBrush(Color.FromArgb(Convert.ToInt32((string)properties["font_color"], 16)));
-            PointF point = new PointF((float)properties["position_x"], (float)properties["position_y"]);
 
-            graphics.DrawString(content, font, brush, point);
+            // Draw string at given location
+            graphics.DrawString(content, font, brush, (float)properties["position_x"], (float)properties["position_y"]);
 
         }
 
@@ -163,13 +162,12 @@ namespace id_generator
             {
                 return;
             }
+            
+            // Load image
+            Bitmap photo = new Bitmap(image_filepath);
 
-            Image photo = Image.FromFile(image_filepath);
-            PointF point = new PointF((float)properties["position_x"], (float)properties["position_y"]);
-
-            // If needed insert code for resizing
-
-            graphics.DrawImage(photo, point);
+            // Draw image at given location with given size
+            graphics.DrawImage(photo, (float)properties["position_x"], (float)properties["position_y"], (int)properties["size_x"], (int)properties["size_y"]);
         }
 
         private void draw_static_items(JArray fields)
@@ -182,17 +180,13 @@ namespace id_generator
                     continue;
                 
                 string content_type = (string)field["content_type"];
-                if(content_type.Equals("text"))
-                {
+                if (content_type.Equals("text"))
                     draw_string(canvas_graphics, (JObject)field["properties"], (string)field["content"]);
-                }
                 else if (content_type.Equals("image"))
-                {
-                    // Nothing here
-                }
+                    draw_image(canvas_graphics, (JObject)field["properties"], (string)field["content"]);
                 else
                 {
-                    // Nothing
+                    throw new Exception("Content type not recognized " + content_type);
                 }
             } // End foreach
             
@@ -236,9 +230,7 @@ namespace id_generator
                         draw_image(id_card_graphics, (JObject)field["properties"], photo_filepath);
                     }
                     else
-                    {
-                        // I wonder what
-                    }
+                        throw new Exception("Content type not recognized " + content_type);
 
                     // Save the constructed image
                     string filename = csv_obj.GetField<string>("uniqueid") + ".jpg";
